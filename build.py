@@ -6,8 +6,9 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 
-MODULES = ["paramiko", "tk"]
+MODULES = ["paramiko"]
 INPUTS = ["src/imports.py", "src/GlobalState.py", *sorted(glob.glob("src/gui/*py")), "src/main.py"]
 
 def main():
@@ -43,12 +44,22 @@ def main():
     try:
         print("moving into virtual environment")
         os.chdir("./venv/")
-        python_venv = ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
-        print("Installing Python Modules")
-        process = subprocess.run([str(python_venv), "-m", "ensurepip", "--upgrade"])
-        process = subprocess.run([str(python_venv), "-m", "pip", "install", *MODULES])
     except:
-        print("Failed to install paramiko and tk to virtual environment")
+        print("FAILED TO MOVE IN")
+        return
+    try:
+        print("Getting pip")
+        python_venv = ("./Scripts/python.exe" if sys.platform == "win32" else "./bin/python")
+        process = subprocess.run([str(python_venv), "-m", "ensurepip", "--upgrade"], check=True)
+    except:
+        print("Failed to get pip")
+        print("Continuing")
+    try:
+        print("Installing Python Modules")
+        python_venv = ("./Scripts/python.exe" if sys.platform == "win32" else "./bin/python") 
+        process = subprocess.run([str(python_venv), "-m", "pip", "install", *MODULES], check=True)
+    except:
+        print("Failed to install paramiko to virtual environment")
         print("Continuing")
     finally:
         print("Building ChemU Server Admin Tool")
