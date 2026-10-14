@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#Virtual Environment
+venv/
+#any ssh keys
+*.pem
+#build
+ChemU_Server_Admin_Tool.py
