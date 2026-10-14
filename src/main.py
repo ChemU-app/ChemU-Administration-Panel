@@ -8,7 +8,7 @@ def main():
         #print(client_state.getTeachers(client))
         state = 0
         while state is not -1:
-            running = GUI_Menu()
+            state = GUI_Menu(state, client, client_state)
         del client_state
     except Exception as e:
         print(f"Error: {e}")
